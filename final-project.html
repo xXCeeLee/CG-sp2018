@@ -133,15 +133,15 @@ function multiply1x4Matrices(m, v) {
 }
 
 const stars = [];
-for(let i=0; i<50; i++) {
+for(let i=0; i<80; i++) {
   let x = Math.random();
   x *= Math.floor(Math.random()*2) == 1 ? 1 : -1;
   let y = Math.random();
   y *= Math.floor(Math.random()*2) == 1 ? 1 : -1;
   let z = Math.random();
   z *= Math.floor(Math.random()*2) == 1 ? 1 : -1;
-  let position = [x, y, z]
-  stars[i] = position;
+  let array = [x, y, z, (i%5)/700]
+  stars[i] = array;
 }
 console.log(stars)
 
@@ -291,10 +291,11 @@ function animate(gl) {
    drawSphere(255,255,0); //sun
    matrix.restore()
 
-   for(let i=0; i<50; i++) {
+   for(let i=0; i<80; i++) {
      matrix.save();
      matrix.place(stars[i][0], stars[i][1], stars[i][2]);
-     matrix.scale(0.007*Math.random(), 0.007*Math.random(), 0.007*Math.random());
+     let r = Math.random();
+     matrix.scale(stars[i][3]*r, stars[i][3]*r, stars[i][3]*r);
      drawSphere(255, 255, 255);
      matrix.restore();
    }
