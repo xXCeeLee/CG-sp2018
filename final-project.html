@@ -238,7 +238,7 @@ function animate(gl) {
   //               -3,  3,  0, 0,
   //                1, 0,  0,  0];
 
-  const Mercury = [[-0.2, -0.2, 0], [0, 0.5, 0], [0.5, 0, 0], [-0.2, -0.2, 0]];
+  const Mercury = [[-0.2, -0.2, 0], [-0.08, 0.6, 0], [0.6, -0.13, 0], [-0.2, -0.2, 0]];
   const Venus = [[0.23, -0.23, 0], [-0.3, -0.3, 0], [-0.3, -0.3, 0], [0, 0.3, 0]];
   const Earth = [[-0.5, 0, 0], [-0.5, 1, 0], [ 0.5, 1, 0], [ 0.5, 0, 0]];
   const Mars = [[-0.5, 0, 0], [-0.5, 1, 0], [ 0.5, 1, 0], [ 0.5, 0, 0]];
@@ -280,7 +280,7 @@ function animate(gl) {
    
    console.log('mercury');
    matrix.scale(0.05, 0.05, 0.05);
-   drawSpline(Mercury[0],Mercury[1],Mercury[2],Mercury[3], time%1, 1, 1, 1);
+   drawSpline(Mercury[0],Mercury[1],Mercury[2],Mercury[3], time%1, 1,1,1);
 
    // console.log('venus');
    // drawSpline(Venus[0],Venus[1],Venus[2],Venus[3], time%1, 0, 1, 1);
