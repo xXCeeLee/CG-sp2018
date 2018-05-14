@@ -39,7 +39,7 @@ void main() {
    vec3 lDir = normalize(vec3(1.,1.,1.));
    float c = 0.1 + 0.9 * max(0.,
              dot(normal, lDir));
-  c*= noise(0.25 *vNor);
+  c*= turbulence(0.1 *vNor);
    vec3 color = uRGB * c;
    gl_FragColor = vec4(sqrt(color), 1.0);
 }</script>
@@ -49,7 +49,7 @@ void main() {
 <p>FINAL PROJECT: SOLAR SYSTEM</p>
 
 </script>
-   
+
 <script>
 var vs = my_vertex_shader.innerHTML,
     fs = my_fragment_shader.innerHTML;
@@ -112,7 +112,7 @@ function createParametricShape(func, nu, nv) {
 var sphereTriangleStrip = createParametricShape(sphereVertex, 20, 10);
 
 function multiply4x4Matrices(a, b) {
-   var n, temp = []; 
+   var n, temp = [];
   for (n = 0 ; n < 16 ; n++)
       temp.push( a[n&3     ] * b[    n&12] +
                 a[n&3 |  4] * b[1 | n&12] +
@@ -132,6 +132,18 @@ function multiply1x4Matrices(m, v) {
              x * m[3] + y * m[7] + z * m[11] + w * m[15] ];
 }
 
+const stars = [];
+for(let i=0; i<50; i++) {
+  let x = Math.random();
+  x *= Math.floor(Math.random()*2) == 1 ? 1 : -1;
+  let y = Math.random();
+  y *= Math.floor(Math.random()*2) == 1 ? 1 : -1;
+  let z = Math.random();
+  z *= Math.floor(Math.random()*2) == 1 ? 1 : -1;
+  let position = [x, y, z]
+  stars[i] = position;
+}
+console.log(stars)
 
 function animate(gl) {
    let time = (Date.now() - startTime) / 1000;
@@ -156,9 +168,9 @@ function animate(gl) {
 
 
 
-   // transform class 
+   // transform class
 	class transform{
-	  
+
 	  constructor(){
 	    this.stackPointer = 0;
 	    this.matrixStack = [];
@@ -176,7 +188,7 @@ function animate(gl) {
 	  }
 
 	  restore(){
-	    this.stackPointer = this.stackPointer-1; 
+	    this.stackPointer = this.stackPointer-1;
 	  }
 	  getMatrix(){
 	    return this.matrixStack[this.stackPointer];
@@ -194,7 +206,7 @@ function animate(gl) {
 	                                                                                     0,  0,  0, 0,
 	                                                                                     0,  0,  0, 0,
 	                                                                                     0,  0,  0, 0,
-	                                                                                     
+
                                                                                        Tx,  Ty,  Tz, 1
 	   ]);
 	  }
@@ -207,7 +219,7 @@ function animate(gl) {
 	                                                            -Math.sin(theta), 0, Math.cos(theta),  0,
 	                                                            0,                0,               0,  1
 	      ]);
-	    
+
 	  }
 
 	  scale(Sx, Sy, Sz){
@@ -253,9 +265,9 @@ function animate(gl) {
     let pA = [(1-t) * m1[0], (1-t) * m1[1], (1-t) * m1[2]];
     let pB = [t * m2[0], t * m2[1], t * m2[2]];
     val = [pA[0] + pB[0], pA[1] + pB[1], pA[2] + pB[2]];
-    console.log("pA",pA);
-    console.log("pB",pB);
-    console.log("val",val);
+    //console.log("pA",pA);
+    //console.log("pB",pB);
+    //console.log("val",val);
     return val;
   }
 
@@ -273,12 +285,20 @@ function animate(gl) {
    }
 
    matrix.save()
-   console.log('sun');
+   //console.log('sun');
    matrix.place(0, 0, 0);
    matrix.scale(0.072, 0.072, 0.072);
    drawSphere(255,255,0); //sun
    matrix.restore()
-   
+
+   for(let i=0; i<50; i++) {
+     matrix.save();
+     matrix.place(stars[i][0], stars[i][1], stars[i][2]);
+     matrix.scale(0.007*Math.random(), 0.007*Math.random(), 0.007*Math.random());
+     drawSphere(255, 255, 255);
+     matrix.restore();
+   }
+
    //mercury
    matrix.scale(0.04, 0.04, 0.04);
    drawSpline(Mercury[0],Mercury[1],Mercury[2],Mercury[3], (time%1), 1,1,1);
