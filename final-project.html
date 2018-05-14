@@ -257,7 +257,7 @@ function animate(gl) {
   const Mars = [[0, 0.42, 0], [1.8, -1, 0], [-1.5, -0.8, 0], [0, 0.42, 0]];
   const Jupiter = [[0.55, 0.5, 0], [1, -2.4, 0], [-2.5, 1, 0], [0.5, 0.5, 0]];
   const Saturn = [[-0.63, 0.6, 0], [2, 1.6, 0], [-0.6, -2.8, 0], [-0.63, 0.6, 0]];
-  const Uranus = [[0.73, 0, 0], [-0.7, -2.8, 0], [-1.7, 2.7, 0], [0.73, 0, 0]];
+  const Uranus = [[0.73, 0, 0], [-0.7, -2.6, 0], [-1.7, 2.7, 0], [0.73, 0, 0]];
   const Neptune = [[-0.9, 0, 0], [-0.9, 0, 0], [-0.9, 0, 0], [-0.9, 0, 0]];
 
   function mix(m1,m2,t){
@@ -319,10 +319,10 @@ function animate(gl) {
    drawSpline(Saturn[0],Saturn[1],Saturn[2],Saturn[3], (time%1), 5, 4, 2);
 
    //uranus
-   drawSpline(Uranus[0],Uranus[1],Uranus[2],Uranus[3], time%1, 0, 2, 1);
+   drawSpline(Uranus[0],Uranus[1],Uranus[2],Uranus[3], (time%1), 0, 2, 1);
 
    //neptune
-   drawSpline(Neptune[0],Neptune[1],Neptune[2],Neptune[3], time%1, 0, 0, 3);
+   drawSpline(Neptune[0],Neptune[1],Neptune[2],Neptune[3], (time%1), 0, 0, 3);
 }
 
 
