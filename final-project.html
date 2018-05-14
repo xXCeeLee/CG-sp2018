@@ -39,6 +39,7 @@ void main() {
    vec3 lDir = normalize(vec3(1.,1.,1.));
    float c = 0.1 + 0.9 * max(0.,
              dot(normal, lDir));
+  c*= noise(0.25 *vNor);
    vec3 color = uRGB * c;
    gl_FragColor = vec4(sqrt(color), 1.0);
 }</script>
@@ -311,4 +312,4 @@ gl_start(canvas1, vs, fs);
 
 <br>
 <br>
-<p style="margin-right:40px; position: fixed; bottom:2px; right:0px;"><a href="/~chl471/sp18/480-006" style="text-align: center;">Casey Lee</a>, Noah Oberman, Melvis Acosta, Jason Lee</p>
+<p style="margin-right:40px; position: fixed; bottom:2px; right:0px;"><style="text-align: center;">Casey Lee, Noah Oberman, Melvis Acosta, Jason Lee</p>
