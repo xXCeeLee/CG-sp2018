@@ -2,7 +2,7 @@
 
 <body bgcolor=black text=white link=white alink=white vlink=white>
 <center>
-<canvas id='canvas1' width=400 height=400></canvas>
+<canvas id='canvas1' width=600 height=600></canvas>
 </center>
 </body>
 
@@ -62,10 +62,7 @@ document.body.innerHTML = [''
    ,'<table cellspacing=10>'
    ,'<tr>'
    ,'<td valign=top><font size=2 color=red><div id=errorMarker>&nbsp;</div></font></td>'
-   ,'<td valign=top>'
-   ,'<textArea id=textArea spellcheck=false '
-   ,'style="font:16px courier;outline-width:0;border-style:none;resize:none;overflow:scroll;"'
-   ,'></textArea>'
+   ,'<td valign=top width=300px></td>'
    ,'</td><td valign=top>' + document.body.innerHTML + '</td>'
    ,'<td valign=top><font size=5>' + instructions.innerHTML + '</td>'
    ,'</tr></table>'
@@ -75,13 +72,6 @@ document.body.innerHTML = [''
 var i, text = fs.split('\n'), cols = 0;
 for (i = 0 ; i < text.length ; i++)
    cols = Math.max(cols, text[i].length);
-
-textArea.rows = text.length;
-textArea.cols = cols;
-textArea.value = fs;
-textArea.style.backgroundColor = '#202020';
-textArea.style.color = 'white';
-textArea.onkeyup = function() { canvas1.setShaders(vs, this.value); }
 
 var startTime = Date.now();
 
@@ -248,8 +238,8 @@ function animate(gl) {
   //               -3,  3,  0, 0,
   //                1, 0,  0,  0];
 
-  const Mercury = [[-0.5, 0, 0], [-0.5, 1, 0], [ 0.5, 1, 0], [ 0.5, 0, 0]];
-  const Venus = [[-0.5, 0, 0], [-0.5, 1, 0], [ 0.5, 1, 0], [ 0.5, 0, 0]];
+  const Mercury = [[-0.2, -0.2, 0], [0, 0.5, 0], [0.5, 0, 0], [-0.2, -0.2, 0]];
+  const Venus = [[0.23, -0.23, 0], [-0.3, -0.3, 0], [-0.3, -0.3, 0], [0, 0.3, 0]];
   const Earth = [[-0.5, 0, 0], [-0.5, 1, 0], [ 0.5, 1, 0], [ 0.5, 0, 0]];
   const Mars = [[-0.5, 0, 0], [-0.5, 1, 0], [ 0.5, 1, 0], [ 0.5, 0, 0]];
   const Jupiter = [[-0.5, 0, 0], [-0.5, 1, 0], [ 0.5, 1, 0], [ 0.5, 0, 0]];
@@ -268,7 +258,7 @@ function animate(gl) {
     return val;
   }
 
-  function drawSpline(A,B,C,D,t) {
+  function drawSpline(A,B,C,D,t,r,g,b) {
     let p = mix (
             mix ( mix(A,B,t) , mix(B,C,t) , t ),
             mix ( mix(B,C,t) , mix(C,D,t) , t ),
@@ -277,38 +267,41 @@ function animate(gl) {
     // console.log(p);
     matrix.save()
     matrix.place(p[0], p[1], p[2]);
-    drawSphere(0, 0, 1);
+    drawSphere(r,g,b);
     matrix.restore()
    }
 
    matrix.save()
+   console.log('sun');
    matrix.place(0, 0, 0);
-   drawSphere(0, 1, 1); //sun
+   matrix.scale(0.07, 0.07, 0.07);
+   drawSphere(255,255,0); //sun
    matrix.restore()
    
-   // matrix.scale(0.09, 0.09, 0.09);
-   drawSpline(Mercury[0],Mercury[1],Mercury[2],Mercury[3], time%1);
+   console.log('mercury');
+   matrix.scale(0.05, 0.05, 0.05);
+   drawSpline(Mercury[0],Mercury[1],Mercury[2],Mercury[3], time%1, 1, 1, 1);
 
-   // matrix.scale(0.09, 0.09, 0.09);
-   drawSpline(Venus[0],Venus[1],Venus[2],Venus[3], time%1);
+   // console.log('venus');
+   // drawSpline(Venus[0],Venus[1],Venus[2],Venus[3], time%1, 0, 1, 1);
 
-   // matrix.scale(0.09, 0.09, 0.09);
-   drawSpline(Earth[0],Earth[1],Earth[2],Earth[3], time%1);
+   // console.log('earth');
+   // drawSpline(Earth[0],Earth[1],Earth[2],Earth[3], time%1, 0, 1, 2);
 
-   // matrix.scale(0.09, 0.09, 0.09);
-   drawSpline(Mars[0],Mars[1],Mars[2],Mars[3], time%1);
+   // console.log('mars');
+   // drawSpline(Mars[0],Mars[1],Mars[2],Mars[3], time%1, 1, 0, 0);
 
-   // matrix.scale(0.09, 0.09, 0.09);
-   drawSpline(Jupiter[0],Jupiter[1],Jupiter[2],Jupiter[3], time%1);
+   // console.log('jupiter');
+   // drawSpline(Jupiter[0],Jupiter[1],Jupiter[2],Jupiter[3], time%1, 1, 0, 1);
 
-   // matrix.scale(0.09, 0.09, 0.09);
-   drawSpline(Saturn[0],Saturn[1],Saturn[2],Saturn[3], time%1);
+   // console.log('saturn');
+   // drawSpline(Saturn[0],Saturn[1],Saturn[2],Saturn[3], time%1, 1, 1, 0);
 
-   // matrix.scale(0.09, 0.09, 0.09);
-   drawSpline(Uranus[0],Uranus[1],Uranus[2],Uranus[3], time%1);
+   // console.log('uranus');
+   // drawSpline(Uranus[0],Uranus[1],Uranus[2],Uranus[3], time%1, 0, 1, 1);
 
-   // matrix.scale(0.09, 0.09, 0.09);
-   drawSpline(Neptune[0],Neptune[1],Neptune[2],Neptune[3], time%1)
+   // console.log('neptune');
+   // drawSpline(Neptune[0],Neptune[1],Neptune[2],Neptune[3], time%1, 0, 1, 1);
 }
 
 
