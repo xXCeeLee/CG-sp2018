@@ -141,14 +141,14 @@ function multiply1x4Matrices(m, v) {
 }
 
 const stars = [];
-for(let i=0; i<80; i++) {
+for(let i=0; i<150; i++) {
   let x = Math.random();
   x *= Math.floor(Math.random()*2) == 1 ? 1 : -1;
   let y = Math.random();
   y *= Math.floor(Math.random()*2) == 1 ? 1 : -1;
   let z = Math.random();
   z *= Math.floor(Math.random()*2) == 1 ? 1 : -1;
-  let array = [x, y, z, (i%5)/700]
+  let array = [x, y, z, (i%5)/1200]
   stars[i] = array;
 }
 console.log(stars)
@@ -280,6 +280,7 @@ function animate(gl) {
   }
 
   function drawSpline(A,B,C,D,t,r,g,b) {
+    console.log(t)
     let p = mix (
             mix ( mix(A,B,t) , mix(B,C,t) , t ),
             mix ( mix(B,C,t) , mix(C,D,t) , t ),
@@ -299,10 +300,18 @@ function animate(gl) {
    drawSphere(255,255,0); //sun
    matrix.restore()
 
-   for(let i=0; i<80; i++) {
+   for(let i=0; i<150; i++) {
      matrix.save();
      matrix.place(stars[i][0], stars[i][1], stars[i][2]);
-     let r = Math.random();
+     let r
+     if(Math.floor(Math.random()*40) == 0) {
+      r = Math.random()
+      if(r < 0.8)
+        r += 0.8
+     }
+     else {
+      r = 0.8
+     }
      matrix.scale(stars[i][3]*r, stars[i][3]*r, stars[i][3]*r);
      drawSphere(255, 255, 255);
      matrix.restore();
